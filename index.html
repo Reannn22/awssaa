@@ -10097,7 +10097,7 @@ function buildCard(item){
   var top=mk("div","card-top");
   var badge=mk("span","qbadge"); badge.textContent="Question #"+(item.number||"?"); top.appendChild(badge);
   var pill=mk("span","result-pill");
-  if(ans){ pill.classList.add("show",ans.correct?"correct":"wrong"); pill.textContent=ans.correct?"✓ Correct":"✗ Wrong – answer: "+[...correct].join(", "); }
+  if(ans){ pill.classList.add("show",ans.correct?"correct":"wrong"); pill.textContent=(ans.correct ? "✓ Correct - answer: " : "✗ Wrong - answer: ") + [...correct].sort().join(", "); }
   top.appendChild(pill); card.appendChild(top);
 
   /* images for this question */
@@ -10178,7 +10178,7 @@ function updateCardInPlace(card,item,ans){
   var correct=new Set([].concat(item.correct_answer||[]));
   var pill=card.querySelector(".result-pill");
   pill.classList.add("show",ans.correct?"correct":"wrong");
-  pill.textContent=ans.correct?"✓ Correct":"✗ Wrong – answer: "+[...correct].sort().join(", ");
+  pill.textContent=(ans.correct ? "✓ Correct - answer: " : "✗ Wrong - answer: ") + [...correct].sort().join(", ");
   var chosenSet=new Set([].concat(ans.chosen||[]));
   card.querySelectorAll(".choice").forEach(function(row){
     var letter=row.querySelector(".ltr").textContent.replace(".","").trim();
