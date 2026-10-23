@@ -882,9 +882,10 @@ var DATA = [
       "E": "Store the application data in Amazon S3. Create an Amazon Simple Notification Service (Amazon SNS) topic as an S3 event destination to send the report by email."
     },
     "correct_answer": [
-      "B"
+      "B",
+      "D"
     ],
-    "explanation": "Use Amazon Simple Email Service (Amazon SES) to format the data and to send the report by email."
+    "explanation": "Option D: Create an Amazon EventBridge scheduled rule to invoke an AWS Lambda function every morning to query the application API. Option B: Use Amazon Simple Email Service (Amazon SES) to format the data into HTML and send the report to multiple email recipients."
   },
   {
     "number": 52,
@@ -1191,9 +1192,10 @@ var DATA = [
       "E": "Replace the current security group of the application instances with one that allows inbound SSH access from only the public IP address of the bastion host."
     },
     "correct_answer": [
+      "C",
       "D"
     ],
-    "explanation": "Replace the current security group of the application instances with one that allows inbound SSH access from only the private IP address of the bastion host."
+    "explanation": "Option C: Configure the bastion host security group to allow inbound SSH access only from the company on-premises public IP range. Option D: Configure the private application instances security group to allow inbound SSH access only from the private IP address of the bastion host."
   },
   {
     "number": 74,
@@ -1460,9 +1462,10 @@ var DATA = [
       "E": "Create a NAT instance and have the EC2 instances use the NAT instance to access the S3 bucket."
     },
     "correct_answer": [
+      "A",
       "C"
     ],
-    "explanation": "Create a bucket policy that limits access to only the application tier running in the VPC."
+    "explanation": "Option A: Create a VPC gateway endpoint for Amazon S3 to route traffic privately between EC2 instances in the VPC and S3. Option C: Attach an S3 bucket policy that restricts bucket access specifically to requests originating from the VPC / VPC endpoint."
   },
   {
     "number": 93,
@@ -1601,9 +1604,10 @@ var DATA = [
       "E": "Use AWS DataSync to create a suitable location configuration for the on-premises SFTP server."
     },
     "correct_answer": [
+      "B",
       "E"
     ],
-    "explanation": "Use AWS DataSync to create a suitable location configuration for the on-premises SFTP server."
+    "explanation": "Option B: Install an AWS DataSync agent in the on-premises data center to access the NFS storage. Option E: Use AWS DataSync to create location configurations for the on-premises NFS source and the target Amazon EFS file system to automate the transfer."
   },
   {
     "number": 103,
@@ -1630,9 +1634,10 @@ var DATA = [
       "E": "Use EC2 Spot Instances in an Auto Scaling group with a target tracking scaling policy that is set to 80% CPU utilization."
     },
     "correct_answer": [
+      "A",
       "C"
     ],
-    "explanation": "Configure the website to use Amazon CloudFront for both static and dynamic content."
+    "explanation": "Option A: AWS Shield Advanced provides specialized DDoS mitigation and 24/7 access to the AWS Shield Response Team (SRT). Option C: Distributing traffic through Amazon CloudFront caches static content and absorbs DDoS attacks at AWS edge locations globally."
   },
   {
     "number": 105,
@@ -1715,9 +1720,10 @@ var DATA = [
       "E": "Create an Amazon EventBridge (Amazon CloudWatch Events) rule that invokes an AWS Lambda function on a schedule to resize uploaded images."
     },
     "correct_answer": [
+      "C",
       "D"
     ],
-    "explanation": "Configure S3 Event Notifications to invoke an AWS Lambda function when an image is uploaded. Use the function to resize the image."
+    "explanation": "Option C: Use Amazon S3 presigned URLs to allow client browsers to upload images directly to S3, bypassing web servers and improving upload speed. Option D: Use S3 Event Notifications to trigger an AWS Lambda function to resize images asynchronously, decoupling processing from the web tier."
   },
   {
     "number": 111,
@@ -1800,9 +1806,10 @@ var DATA = [
       "E": "Create the new website. Deploy the website by using an Auto Scaling group of Amazon EC2 instances behind an Application Load Balancer."
     },
     "correct_answer": [
+      "A",
       "D"
     ],
-    "explanation": "Create the new website and an Amazon S3 bucket. Deploy the website on the S3 bucket with static website hosting enabled."
+    "explanation": "Option D: Deploying the static website on Amazon S3 with static website hosting enabled eliminates server maintenance and patching. Option A: Placing Amazon CloudFront in front of S3 provides custom SSL/TLS certificates and HTTPS security with global edge caching."
   },
   {
     "number": 117,
@@ -1984,9 +1991,10 @@ var DATA = [
       "E": "Migrate the web application to be hosted on AWS Fargate with Amazon Elastic Container Service (Amazon ECS)."
     },
     "correct_answer": [
+      "A",
       "E"
     ],
-    "explanation": "Migrate the web application to be hosted on AWS Fargate with Amazon Elastic Container Service (Amazon ECS)."
+    "explanation": "Option E: Migrating the containerized web application to AWS Fargate with Amazon ECS removes server management and capacity planning overhead. Option A: Migrating the PostgreSQL database to Amazon Aurora PostgreSQL provides a fully managed, auto-scaling relational database."
   },
   {
     "number": 130,
@@ -2369,9 +2377,10 @@ var DATA = [
       "E": "Use blueprints in AWS Lake Formation to identify the data that can be ingested into a data lake. Use AWS Glue to crawl the source, extract the data, and load the data into Amazon S3 in Apache Parquet format."
     },
     "correct_answer": [
-      "D"
+      "A",
+      "E"
     ],
-    "explanation": "Amazon RDS for PostgreSQL"
+    "explanation": "Option E: AWS Lake Formation blueprints automate cataloging and ingesting batch data into an S3 data lake in Parquet format. Option A: Amazon Athena allows analysts to run serverless ad-hoc SQL queries on S3 data, and Amazon QuickSight provides interactive dashboards for KPIs."
   },
   {
     "number": 157,
@@ -2710,9 +2719,10 @@ var DATA = [
       "E": "Use AWS Shield Standard with Amazon API Gateway."
     },
     "correct_answer": [
+      "B",
       "C"
     ],
-    "explanation": "Use AWS WAF to protect Amazon API Gateway."
+    "explanation": "Option B: AWS Shield Advanced protects the Network Load Balancer (NLB) against complex layer 3 and layer 4 DDoS attacks. Option C: AWS WAF protects Amazon API Gateway against application-layer exploits such as SQL injection and cross-site scripting."
   },
   {
     "number": 181,
