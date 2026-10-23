@@ -9606,7 +9606,7 @@ $btnDark.addEventListener("click", function(){
   setHash({dark: dark?"1":""});
   applyDark();
 });
-function applyDark(){ document.body.classList.toggle("dark",dark); $btnDark.textContent = "Dark"; }
+function applyDark(){ document.body.classList.toggle("dark",dark); $btnDark.textContent = dark ? "Dark" : "Light"; }
 
 /* lightbox */
 $lb.addEventListener("click", function(){ $lb.classList.remove("show"); });
@@ -9633,15 +9633,30 @@ $btnReveal.addEventListener("click", function(){
   $btnReveal.style.background = revealAll ? "#ff9900" : "";
   $btnReveal.style.color      = revealAll ? "#000"    : "";
   $btnReveal.style.borderColor= revealAll ? "#ff9900" : "";
-  document.querySelectorAll("details.exp").forEach(function(d){
-    if (revealAll) {
+  if (revealAll) {
+    document.querySelectorAll("details.exp").forEach(function(d){
       d.open = true;
       /* also auto-answer the card if not yet answered */
       autoAnswerCard(d.closest(".card"));
-    } else {
+    });
+  } else {
+    document.querySelectorAll("details.exp").forEach(function(d){
       d.open = false;
-    }
-  });
+    });
+    /* unselect answers on current page and any revealed answers */
+    filtered.slice(page*PAGE_SIZE, page*PAGE_SIZE+PAGE_SIZE).forEach(function(item){
+      delete answers[item.number];
+    });
+    Object.keys(answers).forEach(function(k){
+      if(answers[k] && answers[k].revealed){
+        delete answers[k];
+      }
+    });
+    updateScore();
+    var sy = window.scrollY;
+    renderPage();
+    window.scrollTo(0, sy);
+  }
 });
 
 document.getElementById("sTotal").textContent = allData.length;
@@ -9650,7 +9665,6 @@ renderPage();
 
 $search.addEventListener("input", function(){ page=0; applyFilter(); });
 $btnReset.addEventListener("click", function(){
-  if(!confirm("Reset all answers?")) return;
   answers={};
   updateScore();
   renderPage();
