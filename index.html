@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -81,13 +81,14 @@ details.exp summary{cursor:pointer;color:var(--blue);font-size:12px;user-select:
 details.exp summary:hover{text-decoration:underline}
 details.exp summary::before{content:"▶";font-size:9px}
 details.exp[open] summary::before{content:"▼"}
-.exp-body{margin-top:10px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:11px 13px;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;color:var(--muted)}
-#pager{display:flex;justify-content:center;align-items:center;gap:4px;margin:14px 0 28px;flex-wrap:wrap}
-.pg-btn{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--radius);padding:5px 10px;font-size:12px;cursor:pointer;min-width:32px;text-align:center;transition:background .12s,border-color .12s,color .12s}
+#pager{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;margin:18px 0 32px}
+.pg-controls{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:nowrap;max-width:100%;overflow-x:auto}
+.pg-btn{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--radius);padding:5px 10px;font-size:12px;cursor:pointer;min-width:32px;text-align:center;transition:background .12s,border-color .12s,color .12s;white-space:nowrap;user-select:none}
 .pg-btn:hover:not(:disabled){background:var(--bg);border-color:var(--blue);color:var(--blue)}
 .pg-btn:disabled{opacity:.4;cursor:default}
 .pg-btn.current{background:var(--aws);color:#fff;border-color:var(--aws);font-weight:700}
-.pginfo{font-size:12px;color:var(--muted);padding:0 6px;width:100%;text-align:center;margin-top:4px}
+.pg-dots{font-size:12px;color:var(--muted);padding:0 4px;user-select:none}
+.pginfo{font-size:12px;color:var(--muted);text-align:center}
 .empty{text-align:center;color:var(--muted);padding:60px 0;font-size:14px}
 #lightbox{display:none;position:fixed;inset:0;background:#000c;z-index:999;align-items:center;justify-content:center;cursor:zoom-out;padding:16px}
 #lightbox.show{display:flex}
@@ -9775,23 +9776,32 @@ function updateCardInPlace(card,item,ans){
 
 function renderPager(tp){
   if(tp<=1) return;
+  var controls = mk("div","pg-controls");
   var prev=mk("button","pg-btn"); prev.textContent="<"; prev.disabled=page===0;
   prev.onclick=function(){page--;renderPage();};
-  $pager.appendChild(prev);
+  controls.appendChild(prev);
   /* show limited page buttons */
   var start=Math.max(0,page-3), end=Math.min(tp-1,page+3);
-  if(start>0){ var f=mk("button","pg-btn"); f.textContent="1"; f.onclick=function(){page=0;renderPage();}; $pager.appendChild(f); if(start>1){var d=mk("span","pginfo");d.textContent="…";$pager.appendChild(d);} }
+  if(start>0){
+    var f=mk("button","pg-btn"); f.textContent="1"; f.onclick=function(){page=0;renderPage();}; controls.appendChild(f);
+    if(start>1){ var d=mk("span","pg-dots"); d.textContent="…"; controls.appendChild(d); }
+  }
   for(var i=start;i<=end;i++){
     var b=mk("button","pg-btn"); b.textContent=i+1;
     if(i===page) b.classList.add("current");
     (function(pg){b.onclick=function(){page=pg;renderPage();};})(i);
-    $pager.appendChild(b);
+    controls.appendChild(b);
   }
-  if(end<tp-1){ if(end<tp-2){var d2=mk("span","pginfo");d2.textContent="…";$pager.appendChild(d2);} var l=mk("button","pg-btn"); l.textContent=tp; l.onclick=function(){page=tp-1;renderPage();}; $pager.appendChild(l); }
+  if(end<tp-1){
+    if(end<tp-2){ var d2=mk("span","pg-dots"); d2.textContent="…"; controls.appendChild(d2); }
+    var l=mk("button","pg-btn"); l.textContent=tp; l.onclick=function(){page=tp-1;renderPage();}; controls.appendChild(l);
+  }
   var next=mk("button","pg-btn"); next.textContent=">"; next.disabled=page>=tp-1;
   next.onclick=function(){page++;renderPage();};
-  $pager.appendChild(next);
-  var info=mk("div","pginfo"); info.style.width="100%"; info.style.textAlign="center";
+  controls.appendChild(next);
+  $pager.appendChild(controls);
+
+  var info=mk("div","pginfo");
   info.textContent="Page "+(page+1)+" of "+tp+" · "+filtered.length+" questions";
   $pager.appendChild(info);
 }
